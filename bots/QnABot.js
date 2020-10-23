@@ -12,7 +12,8 @@ class QnABot extends ActivityHandler {
             this.qnaMaker = new QnAMaker({
                 knowledgeBaseId: process.env.QnAKnowledgebaseId,
                 endpointKey: process.env.QnAEndpointKey,
-                host: process.env.QnAEndpointHostName
+                host: process.env.QnAEndpointHostName,
+                
             });
         } catch (err) {
             console.warn(`QnAMaker Exception: ${ err } Check your QnAMaker configuration in .env`);
@@ -41,9 +42,9 @@ class QnABot extends ActivityHandler {
                 await context.sendActivity(unconfiguredQnaMessage);
             } else {
                 console.log('Calling QnA Maker');
-
+                
                 const qnaResults = await this.qnaMaker.getAnswers(context);
-
+               
                 // If an answer was received from QnA Maker, send the answer back to the user.
                 if (qnaResults[0]) {
                     await context.sendActivity(qnaResults[0].answer);
